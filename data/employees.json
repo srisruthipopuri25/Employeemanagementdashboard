@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1001,
+    "fullName": "Aarav Sharma",
+    "gender": "Male",
+    "dob": "1998-04-12",
+    "state": "Maharashtra",
+    "active": true,
+    "profileImage": "/images/emp1.jpg"
+  },
+  {
+    "id": 1002,
+    "fullName": "Priya Reddy",
+    "gender": "Female",
+    "dob": "1997-09-23",
+    "state": "Telangana",
+    "active": true,
+    "profileImage": "/images/emp2.jpg"
+  },
+  {
+    "id": 1003,
+    "fullName": "Rahul Verma",
+    "gender": "Male",
+    "dob": "1995-01-15",
+    "state": "Uttar Pradesh",
+    "active": false,
+    "profileImage": "/images/emp3.jpg"
+  },
+  {
+    "id": 1004,
+    "fullName": "Sneha Iyer",
+    "gender": "Female",
+    "dob": "1999-06-30",
+    "state": "Tamil Nadu",
+    "active": true,
+    "profileImage": "/images/emp4.jpg"
+  },
+  {
+    "id": 1005,
+    "fullName": "Karan Patel",
+    "gender": "Male",
+    "dob": "1996-11-08",
+    "state": "Gujarat",
+    "active": false,
+    "profileImage": "/images/emp5.jpg"
+  },
+  {
+    "id": 1006,
+    "fullName": "Neha Gupta",
+    "gender": "Female",
+    "dob": "2000-02-19",
+    "state": "Delhi",
+    "active": true,
+    "profileImage": "/images/emp6.jpg"
+  },
+  {
+    "id": 1007,
+    "fullName": "Arjun Nair",
+    "gender": "Male",
+    "dob": "1994-07-05",
+    "state": "Kerala",
+    "active": true,
+    "profileImage": "/images/emp7.jpg"
+  },
+  {
+    "id": 1008,
+    "fullName": "Pooja Singh",
+    "gender": "Female",
+    "dob": "1998-12-14",
+    "state": "Bihar",
+    "active": false,
+    "profileImage": "/images/emp8.jpg"
+  }
+]
