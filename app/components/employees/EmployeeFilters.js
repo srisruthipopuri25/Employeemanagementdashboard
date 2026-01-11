@@ -1,5 +1,5 @@
-"use client";
-import { useEmployeeStore } from "@/store/employeeStore";
+'use client';
+import { useEmployeeStore } from '@/store/employeeStore';
 
 export default function EmployeeFilters() {
   const search = useEmployeeStore((s) => s.search);

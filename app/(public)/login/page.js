@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/authStore";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/authStore';
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const login = useAuthStore((s) => s.login);
   const error = useAuthStore((s) => s.error);
   const router = useRouter();
 
   const handleLogin = () => {
     const success = login(username, password);
-    if (success) router.push("/dashboard");
+    if (success) router.push('/employees');
   };
 
   return (

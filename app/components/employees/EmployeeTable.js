@@ -5,18 +5,22 @@ import EmployeeFilters from "./EmployeeFilters";
 import EmployeeRow from "./EmployeeRow";
 import Loading from "@/components/common/loader";
 
+
 export default function EmployeeTable() {
   const fetchEmployees = useEmployeeStore((s) => s.fetchEmployees);
   const employees = useEmployeeStore((s) => s.employees);
   const isLoading = useEmployeeStore((s) => s.isLoading); // add in store
 
+
   const search = useEmployeeStore((s) => s.search);
   const filterGender = useEmployeeStore((s) => s.filterGender);
   const filterStatus = useEmployeeStore((s) => s.filterStatus);
 
+
   useEffect(() => {
     if (employees.length === 0) fetchEmployees();
   }, [fetchEmployees, employees.length]);
+
 
   const filtered = employees.filter((e) => {
     if (search && !e.fullName.toLowerCase().includes(search.toLowerCase()))
@@ -27,9 +31,11 @@ export default function EmployeeTable() {
     return true;
   });
 
+
   return (
     <div className="bg-white p-4 rounded shadow space-y-4 text-black">
       <EmployeeFilters />
+
 
       <div id="employeeTable">
         {isLoading ? (
@@ -55,6 +61,7 @@ export default function EmployeeTable() {
                 <EmployeeRow key={e.id} employee={e} />
               ))}
 
+
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan="8" className="py-4 text-gray-500 text-center">
@@ -69,3 +76,4 @@ export default function EmployeeTable() {
     </div>
   );
 }
+
