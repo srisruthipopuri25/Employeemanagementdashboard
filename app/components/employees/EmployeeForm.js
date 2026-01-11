@@ -35,7 +35,6 @@ export default function EmployeeForm() {
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
 
-  // When edit selected
   useEffect(() => {
     if (selectedEmployee) {
       setForm({
@@ -52,7 +51,6 @@ export default function EmployeeForm() {
     }
   }, [selectedEmployee]);
 
-  // When switching to Add mode
   useEffect(() => {
     if (view === 'form' && !selectedEmployee) {
       setForm(emptyForm);
@@ -77,7 +75,6 @@ export default function EmployeeForm() {
       setForm({ ...form, [name]: value });
     }
 
-    // remove error on change
     setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
@@ -125,7 +122,6 @@ export default function EmployeeForm() {
         <div className="card">
           <h2>{selectedEmployee ? 'Update Employee' : 'Add Employee'}</h2>
 
-          {/* Form Grid */}
           <div className="grid">
             <div>
               <label>Full Name</label>
@@ -183,7 +179,6 @@ export default function EmployeeForm() {
             </div>
           </div>
 
-          {/* File Upload */}
           <div className="upload">
             <label>Profile Photo</label>
             <input
@@ -206,7 +201,6 @@ export default function EmployeeForm() {
             )}
           </div>
 
-          {/* Actions */}
           <div className="actions">
             <label className="checkbox">
               <input

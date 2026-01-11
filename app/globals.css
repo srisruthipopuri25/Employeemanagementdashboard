@@ -23,7 +23,6 @@
     width: 100%;
   }
 
-  /* Hide action buttons in print */
   .print\:hidden {
     display: none !important;
   }

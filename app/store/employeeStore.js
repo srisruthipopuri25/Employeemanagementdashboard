@@ -12,7 +12,6 @@ export const useEmployeeStore = create((set) => ({
   currentView: "table",
   setView: (view) => set({ currentView: view }),
 
-  // 🔹 Loader for useEffect / table load
   fetchEmployees: async () => {
     set({ isLoading: true });
     try {
@@ -37,12 +36,9 @@ export const useEmployeeStore = create((set) => ({
   setFilterGender: (value) => set({ filterGender: value }),
   setFilterStatus: (value) => set({ filterStatus: value }),
 
-  // 🔹 Loader while adding employee
   addEmployee: async (emp) => {
     set({ isLoading: true });
     try {
-      // if API call exists, keep it here
-      // await fetch("/api/employees", { method: "POST", body: JSON.stringify(emp) });
 
       set((s) => ({
         employees: [...s.employees, emp],
