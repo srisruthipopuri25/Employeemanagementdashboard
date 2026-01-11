@@ -1,28 +1,39 @@
-"use client";
-import { useState, useEffect } from "react";
-import { useEmployeeStore } from "@/store/employeeStore";
+'use client';
+import { useState, useEffect } from 'react';
+import { useEmployeeStore } from '@/store/employeeStore';
+import './Employee.css';
 
-const STATES = ["Maharashtra", "Telangana", "Tamil Nadu", "Delhi", "Gujarat", "Kerala"];
+const STATES = [
+  'Maharashtra',
+  'Telangana',
+  'Tamil Nadu',
+  'Delhi',
+  'Gujarat',
+  'Kerala',
+];
 
 export default function EmployeeForm() {
   const addEmployee = useEmployeeStore((s) => s.addEmployee);
   const updateEmployee = useEmployeeStore((s) => s.updateEmployee);
   const selectedEmployee = useEmployeeStore((s) => s.selectedEmployee);
-  const clearSelectedEmployee = useEmployeeStore((s) => s.clearSelectedEmployee);
+  const clearSelectedEmployee = useEmployeeStore(
+    (s) => s.clearSelectedEmployee
+  );
   const view = useEmployeeStore((s) => s.currentView);
 
   const emptyForm = {
-    id: "",
-    fullName: "",
-    gender: "",
-    dob: "",
-    state: "",
+    id: '',
+    fullName: '',
+    gender: '',
+    dob: '',
+    state: '',
     active: true,
     profileImage: null,
     preview: null,
   };
 
   const [form, setForm] = useState(emptyForm);
+  const [errors, setErrors] = useState({});
 
   // When edit selected
   useEffect(() => {
@@ -37,22 +48,24 @@ export default function EmployeeForm() {
         profileImage: selectedEmployee.profileImage,
         preview: selectedEmployee.profileImage,
       });
+      setErrors({});
     }
   }, [selectedEmployee]);
 
   // When switching to Add mode
   useEffect(() => {
-    if (view === "form" && !selectedEmployee) {
+    if (view === 'form' && !selectedEmployee) {
       setForm(emptyForm);
+      setErrors({});
     }
   }, [view, selectedEmployee]);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       setForm({ ...form, [name]: checked });
-    } else if (type === "file") {
+    } else if (type === 'file') {
       const file = files[0];
       if (file) {
         const reader = new FileReader();
@@ -63,13 +76,21 @@ export default function EmployeeForm() {
     } else {
       setForm({ ...form, [name]: value });
     }
+
+    // remove error on change
+    setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
   const handleSubmit = () => {
-    if (!form.fullName || !form.gender || !form.dob || !form.state) {
-      alert("All fields required");
-      return;
-    }
+    const newErrors = {};
+    if (!form.fullName) newErrors.fullName = true;
+    if (!form.gender) newErrors.gender = true;
+    if (!form.dob) newErrors.dob = true;
+    if (!form.state) newErrors.state = true;
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) return;
 
     if (selectedEmployee) {
       updateEmployee({
@@ -95,49 +116,114 @@ export default function EmployeeForm() {
     }
 
     setForm(emptyForm);
+    setErrors({});
   };
 
   return (
-    <div className="bg-white p-4 rounded shadow grid grid-cols-2 gap-4">
-      <input
-        name="fullName"
-        className="border p-2 col-span-2"
-        placeholder="Full Name"
-        value={form.fullName}
-        onChange={handleChange}
-      />
+    <>
+      <div className="page">
+        <div className="card">
+          <h2>{selectedEmployee ? 'Update Employee' : 'Add Employee'}</h2>
 
-      <select name="gender" className="border p-2" value={form.gender} onChange={handleChange}>
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
+          {/* Form Grid */}
+          <div className="grid">
+            <div>
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="fullName"
+                placeholder="Enter name"
+                value={form.fullName}
+                onChange={handleChange}
+                className={errors.fullName ? 'border-red-500' : ''}
+              />
+            </div>
 
-      <input type="date" name="dob" className="border p-2" value={form.dob} onChange={handleChange} />
+            <div>
+              <label>Gender</label>
+              <select
+                name="gender"
+                value={form.gender}
+                onChange={handleChange}
+                className={errors.gender ? 'border-red-500' : ''}
+              >
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
 
-      <select name="state" className="border p-2 col-span-2" value={form.state} onChange={handleChange}>
-        <option value="">Select State</option>
-        {STATES.map((s) => (
-          <option key={s} value={s}>
-            {s}
-          </option>
-        ))}
-      </select>
+            <div>
+              <label>Date of Birth</label>
+              <input
+                type="date"
+                name="dob"
+                value={form.dob}
+                onChange={handleChange}
+                className={errors.dob ? 'border-red-500' : ''}
+              />
+            </div>
 
-      <input type="file" accept="image/*" onChange={handleChange} />
+            <div>
+              <label>State</label>
+              <select
+                name="state"
+                value={form.state}
+                onChange={handleChange}
+                className={errors.state ? 'border-red-500' : ''}
+              >
+                <option value="">Select State</option>
+                {STATES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-      {form.preview && (
-        <img src={form.preview} alt="preview" className="h-16 w-16 object-cover rounded" />
-      )}
+          {/* File Upload */}
+          <div className="upload">
+            <label>Profile Photo</label>
+            <input
+              type="file"
+              name="profileImage"
+              accept="image/*"
+              onChange={handleChange}
+            />
+            {form.profileImage && (
+              <span className="text-sm text-gray-500">
+                File: {form.profileImage.name}
+              </span>
+            )}
+            {form.preview && (
+              <img
+                src={form.preview}
+                alt="preview"
+                className="h-16 w-16 object-cover rounded mt-2"
+              />
+            )}
+          </div>
 
-      <label className="flex items-center gap-2">
-        <input type="checkbox" name="active" checked={form.active} onChange={handleChange} />
-        Active
-      </label>
+          {/* Actions */}
+          <div className="actions">
+            <label className="checkbox">
+              <input
+                type="checkbox"
+                name="active"
+                checked={form.active}
+                onChange={handleChange}
+              />
+              Active
+            </label>
 
-      <button onClick={handleSubmit} className="col-span-2 bg-green-600 text-white py-2 rounded">
-        {selectedEmployee ? "Update Employee" : "Add Employee"}
-      </button>
-    </div>
+            <button onClick={handleSubmit}>
+              {selectedEmployee ? 'Update Employee' : 'Add Employee'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }

@@ -2,30 +2,58 @@ import { create } from "zustand";
 
 export const useEmployeeStore = create((set) => ({
   employees: [],
-  selectedEmployee: null, 
+  selectedEmployee: null,
 
   search: "",
   filterGender: "",
   filterStatus: "",
+  isLoading: false,
 
-  currentView: "table", 
+  currentView: "table",
   setView: (view) => set({ currentView: view }),
 
+  // 🔹 Loader for useEffect / table load
   fetchEmployees: async () => {
-    const res = await fetch("/api/employees");
-    const data = await res.json();
-    set({ employees: data });
+    set({ isLoading: true });
+    try {
+      const res = await fetch("/api/employees");
+      const data = await res.json();
+      set({ employees: data });
+    } catch (e) {
+      console.error(e);
+    } finally {
+      set({ isLoading: false });
+    }
   },
+
+  clearFilters: () =>
+  set({
+    search: "",
+    filterGender: "",
+    filterStatus: "",
+  }),
 
   setSearch: (value) => set({ search: value }),
   setFilterGender: (value) => set({ filterGender: value }),
   setFilterStatus: (value) => set({ filterStatus: value }),
 
-  addEmployee: (emp) =>
-    set((s) => ({
-      employees: [...s.employees, emp],
-      currentView: "table", 
-    })),
+  // 🔹 Loader while adding employee
+  addEmployee: async (emp) => {
+    set({ isLoading: true });
+    try {
+      // if API call exists, keep it here
+      // await fetch("/api/employees", { method: "POST", body: JSON.stringify(emp) });
+
+      set((s) => ({
+        employees: [...s.employees, emp],
+        currentView: "table",
+      }));
+    } catch (e) {
+      console.error(e);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 
   updateEmployee: (emp) =>
     set((s) => ({

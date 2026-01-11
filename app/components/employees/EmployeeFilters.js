@@ -8,6 +8,7 @@ export default function EmployeeFilters() {
   const setFilterGender = useEmployeeStore((s) => s.setFilterGender);
   const filterStatus = useEmployeeStore((s) => s.filterStatus);
   const setFilterStatus = useEmployeeStore((s) => s.setFilterStatus);
+  const clearFilters = useEmployeeStore((s) => s.clearFilters);
 
   return (
     <div className="flex gap-3 mb-2">
@@ -37,6 +38,13 @@ export default function EmployeeFilters() {
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
       </select>
+
+      <button
+        onClick={clearFilters}
+        className="bg-gray-500 text-white px-3 py-1 rounded"
+      >
+        Clear
+      </button>
 
       <button
         onClick={() => window.print()}
