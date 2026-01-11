@@ -4,18 +4,16 @@ import { useEmployeeStore } from "@/store/employeeStore";
 export default function EmployeeFilters() {
   const search = useEmployeeStore((s) => s.search);
   const setSearch = useEmployeeStore((s) => s.setSearch);
-
   const filterGender = useEmployeeStore((s) => s.filterGender);
   const setFilterGender = useEmployeeStore((s) => s.setFilterGender);
-
   const filterStatus = useEmployeeStore((s) => s.filterStatus);
   const setFilterStatus = useEmployeeStore((s) => s.setFilterStatus);
 
   return (
-    <div className="bg-white p-4 rounded shadow flex gap-4">
+    <div className="flex gap-3 mb-2">
       <input
         className="border p-2 flex-1"
-        placeholder="Search by name"
+        placeholder="Search by name..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -39,6 +37,13 @@ export default function EmployeeFilters() {
         <option value="active">Active</option>
         <option value="inactive">Inactive</option>
       </select>
+
+      <button
+        onClick={() => window.print()}
+        className="bg-blue-600 text-white px-3 py-1 rounded"
+      >
+        Print
+      </button>
     </div>
   );
 }

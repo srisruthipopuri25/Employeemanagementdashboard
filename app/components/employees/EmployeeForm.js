@@ -9,8 +9,9 @@ export default function EmployeeForm() {
   const updateEmployee = useEmployeeStore((s) => s.updateEmployee);
   const selectedEmployee = useEmployeeStore((s) => s.selectedEmployee);
   const clearSelectedEmployee = useEmployeeStore((s) => s.clearSelectedEmployee);
+  const view = useEmployeeStore((s) => s.currentView);
 
-  const [form, setForm] = useState({
+  const emptyForm = {
     id: "",
     fullName: "",
     gender: "",
@@ -19,8 +20,11 @@ export default function EmployeeForm() {
     active: true,
     profileImage: null,
     preview: null,
-  });
+  };
 
+  const [form, setForm] = useState(emptyForm);
+
+  // When edit selected
   useEffect(() => {
     if (selectedEmployee) {
       setForm({
@@ -33,29 +37,27 @@ export default function EmployeeForm() {
         profileImage: selectedEmployee.profileImage,
         preview: selectedEmployee.profileImage,
       });
-    } else {
-      setForm({
-        id: "",
-        fullName: "",
-        gender: "",
-        dob: "",
-        state: "",
-        active: true,
-        profileImage: null,
-        preview: null,
-      });
     }
   }, [selectedEmployee]);
 
+  // When switching to Add mode
+  useEffect(() => {
+    if (view === "form" && !selectedEmployee) {
+      setForm(emptyForm);
+    }
+  }, [view, selectedEmployee]);
+
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
+
     if (type === "checkbox") {
       setForm({ ...form, [name]: checked });
     } else if (type === "file") {
       const file = files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = () => setForm({ ...form, profileImage: file, preview: reader.result });
+        reader.onload = () =>
+          setForm({ ...form, profileImage: file, preview: reader.result });
         reader.readAsDataURL(file);
       }
     } else {
@@ -77,7 +79,7 @@ export default function EmployeeForm() {
         dob: form.dob,
         state: form.state,
         active: form.active,
-        profileImage: form.preview,
+        profileImage: form.preview || selectedEmployee.profileImage,
       });
       clearSelectedEmployee();
     } else {
@@ -92,16 +94,7 @@ export default function EmployeeForm() {
       });
     }
 
-    setForm({
-      id: "",
-      fullName: "",
-      gender: "",
-      dob: "",
-      state: "",
-      active: true,
-      profileImage: null,
-      preview: null,
-    });
+    setForm(emptyForm);
   };
 
   return (
@@ -120,13 +113,7 @@ export default function EmployeeForm() {
         <option value="Female">Female</option>
       </select>
 
-      <input
-        type="date"
-        name="dob"
-        className="border p-2"
-        value={form.dob}
-        onChange={handleChange}
-      />
+      <input type="date" name="dob" className="border p-2" value={form.dob} onChange={handleChange} />
 
       <select name="state" className="border p-2 col-span-2" value={form.state} onChange={handleChange}>
         <option value="">Select State</option>
@@ -148,10 +135,7 @@ export default function EmployeeForm() {
         Active
       </label>
 
-      <button
-        onClick={handleSubmit}
-        className="col-span-2 bg-green-600 text-white py-2 rounded"
-      >
+      <button onClick={handleSubmit} className="col-span-2 bg-green-600 text-white py-2 rounded">
         {selectedEmployee ? "Update Employee" : "Add Employee"}
       </button>
     </div>

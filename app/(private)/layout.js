@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "@/components/layout/Sidebar";
-import Header from "@/components/layout/Header";
+import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
 
 export default function ProtectedLayout({ children }) {
   return (
