@@ -9,7 +9,7 @@ import Loading from "@/components/common/loader";
 export default function EmployeeTable() {
   const fetchEmployees = useEmployeeStore((s) => s.fetchEmployees);
   const employees = useEmployeeStore((s) => s.employees);
-  const isLoading = useEmployeeStore((s) => s.isLoading); // add in store
+  const isLoading = useEmployeeStore((s) => s.isLoading); 
 
 
   const search = useEmployeeStore((s) => s.search);

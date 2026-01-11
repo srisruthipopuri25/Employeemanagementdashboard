@@ -13,7 +13,7 @@ export default function EmployeeFilters() {
   return (
     <div className="flex gap-3 mb-2">
       <input
-        className="border p-2 flex-1"
+        className="border p-2 "
         placeholder="Search by name..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
