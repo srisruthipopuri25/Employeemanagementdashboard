@@ -1,6 +1,8 @@
 
 # Employee Management Dashboard
 
+Live : https://employeemanagementportal2.netlify.app/
+
 ## Project Overview
 This is an Employee Management Dashboard built with React.js and Next.js. The application allows users to log in and manage employee information. We can view the list of employees, add new employees, edit existing employee details, delete employees, and print the employee list. The dashboard also supports searching and filtering employees by name, gender, and status.
 
